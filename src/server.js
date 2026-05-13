@@ -34,42 +34,45 @@ const home =`<!doctype html>
   </html>`
 
 app.use(express.json());
-
+{/* GET */ }
 app.get('/', (req, res) => {
-    res.send(home)
+  res.send(home)
 });
-
+{/* GET DYNAMIC ROUTE */ }
 app.get('/users/:id', (req, res) => {
-    const id = (req.params.id)-1;
-    res.send(users[id]);
+  const id = (req.params.id) - 1;
+  res.send(users[id]);
 });
 app.get('/users', (req, res) => {
-    res.json(users)
+  res.json(users)
 });
-
+{/* POST */ }
 app.post('/users', (req, res) => {
-    const { username, email, password } = req.body;
-    const newUser = {
-        id: users[users.length - 1].id + 1,
-        username,
-        email,
-        password
-    };
-    users.push(newUser);
-    res.status(201).json(newUser);
+  const { username, email, password } = req.body;
+  const newUser = {
+    id: users[users.length - 1].id + 1,
+    username,
+    email,
+    password
+  };
+  users.push(newUser);
+  res.status(201).json(newUser);
 })
-
+{/* PUT */ }
 app.put('/users/:id', (req, res) => {
-    const userId = req.params.id;
-    const usersIndex = users.findIndex(i => i.id === id);
+  const userId = parseInt(req.params.id);
+  const usersIndex = users.findIndex(i => i.id === (userId));
 
-    if (usersIndex !== -1) {
-        users[usersIndex] = { id: userId, ...req.body };
-        res.json({ message: 'User updated', user: users[usersIndex] });
-    }
+  if (usersIndex !== -1) {
+    users[usersIndex] = { id: userId, ...req.body };
+    res.json({ message: 'User updated', user: users[usersIndex] });
+  } else {
+
+    res.status(404).json({ message: 'User not found' });
+  }
 })
 
 
 app.listen(3000, () => {
-    console.log('Server is running on port 3000 🌏')
+  console.log('Server is running on port 3000 🌏')
 })
