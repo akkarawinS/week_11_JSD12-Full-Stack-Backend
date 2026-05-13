@@ -1,5 +1,5 @@
-fetch('http://localhost:3000/users', {
-    method: 'POST',
+fetch('http://localhost:3000/users/1', {
+    method: 'PUT',
     headers: {
         'Content-Type': 'application/json'
     },

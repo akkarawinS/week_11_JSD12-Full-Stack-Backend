@@ -39,6 +39,10 @@ app.get('/', (req, res) => {
     res.send(home)
 });
 
+app.get('/users/:id', (req, res) => {
+    const id = (req.params.id)-1;
+    res.send(users[id]);
+});
 app.get('/users', (req, res) => {
     res.json(users)
 });
@@ -53,6 +57,16 @@ app.post('/users', (req, res) => {
     };
     users.push(newUser);
     res.status(201).json(newUser);
+})
+
+app.put('/users/:id', (req, res) => {
+    const userId = req.params.id;
+    const usersIndex = users.findIndex(i => i.id === id);
+
+    if (usersIndex !== -1) {
+        users[usersIndex] = { id: userId, ...req.body };
+        res.json({ message: 'User updated', user: users[usersIndex] });
+    }
 })
 
 
