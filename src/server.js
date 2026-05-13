@@ -1,5 +1,5 @@
 import express from 'express';
-import {users} from './mockData/Users.js'
+import { users } from './mockData/Users.js'
 
 const app = express();
 const home =`<!doctype html>
@@ -33,15 +33,29 @@ const home =`<!doctype html>
     </body>
   </html>`
 
-app.get('/',(req,res)=>{
+app.use(express.json());
+
+app.get('/', (req, res) => {
     res.send(home)
 });
 
-app.get('/users',(req,res)=>{
+app.get('/users', (req, res) => {
     res.json(users)
 });
 
+app.post('/users', (req, res) => {
+    const { username, email, password } = req.body;
+    const newUser = {
+        id: users[users.length - 1].id + 1,
+        username,
+        email,
+        password
+    };
+    users.push(newUser);
+    res.status(201).json(newUser);
+})
 
-app.listen(3000, ()=>{
+
+app.listen(3000, () => {
     console.log('Server is running on port 3000 🌏')
 })
