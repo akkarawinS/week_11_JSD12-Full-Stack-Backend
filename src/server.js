@@ -38,7 +38,9 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send(home)
 });
+
 {/* GET DYNAMIC ROUTE */ }
+
 app.get('/users/:id', (req, res) => {
   const id = (req.params.id) - 1;
   res.send(users[id]);
@@ -46,9 +48,15 @@ app.get('/users/:id', (req, res) => {
 app.get('/users', (req, res) => {
   res.json(users)
 });
+
 {/* POST */ }
 app.post('/users', (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password } = req.body || {};
+  {/*Error handling */}
+  if (!username || !email) {
+    res.status(400).json({ error: "username and email are required" });
+  }
+
   const newUser = {
     id: users[users.length - 1].id + 1,
     username,
@@ -57,7 +65,9 @@ app.post('/users', (req, res) => {
   };
   users.push(newUser);
   res.status(201).json(newUser);
+
 })
+
 {/* PUT */ }
 app.put('/users/:id', (req, res) => {
   const userId = parseInt(req.params.id);
