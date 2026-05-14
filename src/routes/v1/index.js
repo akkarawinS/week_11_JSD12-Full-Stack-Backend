@@ -1,13 +1,6 @@
-fetch('http://localhost:3000/users/', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        username: 'Judas',
-        email: 'joe@example.com',
-        password: '1234567'
-    })
-})
-.then(res => res.json())
-.then(data => console.log(data))
+import { Router } from 'express'
+import { router as usersRoutes } from './users.routes.js'
+
+export const router = Router();
+
+router.use('/users', usersRoutes);
