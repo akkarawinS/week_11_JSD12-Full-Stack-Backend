@@ -71,5 +71,15 @@ router.put('/:id', (req, res) => {
 
 {/* DELETE user data*/ }
 router.delete('/:id', (req, res)=>{
+  const userId = parseInt(req.params.id);
+  const usersIndex = users.findIndex(u => u.id === userId);
   
+  if(usersIndex !== -1){
+    users.splice(usersIndex,1);
+    res.json({message: 'User deleted successfully', users: users}); 
+  } else {
+    res.status(404).json({message: 'User not found'});
+  }
+
+
 })
