@@ -38,7 +38,7 @@ const home =`<!doctype html>
 
 app.use(express.json());
 
-app.use(cors);
+app.use(cors());
 
 {/* GET */ }
 app.get('/', (req, res) => {
@@ -48,6 +48,6 @@ app.get('/', (req, res) => {
 app.use('/api', apiRoutes);
 
 
-app.listen(3030, () => {
+app.listen(3000, () => {
   console.log('Server is running on port 3030 🌏')
 });
