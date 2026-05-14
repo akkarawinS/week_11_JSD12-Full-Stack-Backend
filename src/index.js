@@ -4,7 +4,7 @@ fetch('http://localhost:3000/users/', {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        username: 'dasdas',
+        username: 'Judas',
         email: 'joe@example.com',
         password: '1234567'
     })

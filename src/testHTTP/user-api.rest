@@ -1,2 +1,30 @@
 GET http://localhost:3000/users/
 
+### Dynamic route
+GET http://localhost:3000/users/2
+
+
+
+### Create new user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "'kokok'",
+    "email": "'joe@example.com'",
+    "password": "1234567"
+
+}
+
+### Update
+PUT http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+
+    "username": "'kokok'",
+    "email": "'joe@example.com'",
+    "password": "1234567"
+
+
+}
