@@ -1,7 +1,8 @@
 import express from 'express';
 import { users } from './mockData/Users.js'
 import cors from 'cors'
-import { router as apiRoutes} from './routes/v1/index.js'
+import { router as apiRoutes} from './routes/index.js'
+import { connectDB } from './config/mongodb.js';
 
 const app = express();
 
@@ -47,6 +48,8 @@ app.get('/', (req, res) => {
 
 app.use('/api', apiRoutes);
 
+
+await connectDB();
 
 app.listen(3000, () => {
   console.log('Server is running on port 3030 🌏')

@@ -2,7 +2,7 @@ GET http://localhost:3000
 
 
 ###
-GET http://localhost:3000/api/users
+GET http://localhost:3000/api/v2/users
 
 ### Dynamic route
 GET http://localhost:3000/api/users/2
