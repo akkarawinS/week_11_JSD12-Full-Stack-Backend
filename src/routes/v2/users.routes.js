@@ -19,18 +19,25 @@ router.get('/', async (req, res) => {
   }
 });
 
-// {/* GET DYNAMIC ROUTE */ }
-// router.get('/:id', (req, res) => {
-//   const id = (req.params.id) - 1;
-//   res.send(users[id]);
-// });
+{/* GET DYNAMIC ROUTE */ }
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+    res.status(200).json({ success: true, data: userResponse(user) });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+});
 
 
 {/* POST new user*/ }
 router.post('/', async (req, res) => {
   const { username, email, password, role} = req.body || {};
 
-  {/*Error handling */ }
+  //Eror handling
   if (!username || !email || !password) {
     const err = new Error('Missing required fields: username, email, and password are required.');
     err.name = 'ValidationError';
@@ -48,47 +55,39 @@ router.post('/', async (req, res) => {
   }
 });
 
-// {/* PUT update user*/ }
-// router.put('/:id', (req, res) => {
-//   // const userId = parseInt(req.params.id);
-//   // const usersIndex = users.findIndex(u => u.id === (userId));
+{/* PUT update user*/ }
+router.put('/:id', async (req, res) => {
+  const { username, email, password} = req.body || {};
 
-//   // if (usersIndex !== -1) {
-//   //   users[usersIndex] = { id: userId, ...req.body };
-//   //   res.json({ message: 'User updated', user: users[usersIndex] });
-//   // } else {
-
-//   //   res.status(404).json({ message: 'User not found' });
-//   // }
-
-//   {/*P'Neeti method */ }
-//   const user = users.find(u => u.id === parseInt(req.params.id));
-//   const { username,email,password } = req.body;
-//   if (user) {
-//     user.usersname = username;
-//     user.email = email;
-//     user.password = password;
-
-//     res.status(200).json(user);
-//   } else {
-
-//     res.status(404).json({ message: 'User not found' });
-
-//   }
-// });
+  if (!username && !email && !password) {
+    const err = new Error('At least one field (username, email, password, or role) must be provided for update.');
+    err.name = 'ValidationError';
+    err.status = 400;
+    return res.status(400).json({ success: false, error: err });
+  }
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { username, email, password},
+      { new: true, runValidators: true }
+    );
+    res.status(200).json({ success: true, data: userResponse(updatedUser) });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+});
 
 
-// {/* DELETE user data*/ }
-// router.delete('/:id', (req, res)=>{
-//   const userId = parseInt(req.params.id);
-//   const usersIndex = users.findIndex(u => u.id === userId);
-  
-//   if(usersIndex !== -1){
-//     users.splice(usersIndex,1);
-//     res.json({message: 'User deleted successfully', users: users}); 
-//   } else {
-//     res.status(404).json({message: 'User not found'});
-//   }
 
-
-// })
+{/* DELETE user data*/ }
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);  
+    if (!deletedUser) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+    res.status(200).json({ success: true, message: 'User deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err });
+  } 
+});
