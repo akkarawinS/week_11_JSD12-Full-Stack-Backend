@@ -59,12 +59,14 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const { username, email, password} = req.body || {};
 
+//ดัก error ในเคสว่าถ้า 
   if (!username && !email && !password) {
     const err = new Error('At least one field (username, email, password, or role) must be provided for update.');
     err.name = 'ValidationError';
     err.status = 400;
     return res.status(400).json({ success: false, error: err });
   }
+  
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -91,3 +93,5 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ success: false, error: err });
   } 
 });
+
+

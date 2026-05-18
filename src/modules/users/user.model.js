@@ -13,8 +13,5 @@ const userSchema = new mongoose.Schema(
 
 mongoose.model("User", userSchema);
 
-mongoose.connect(process.env.MONGO_DB_URI).then(() => console.log("Connected to MongoDB"))
-.catch((err) => console.error("Error connecting to MongoDB:", err));
-
 
 export const User = mongoose.model("User", userSchema);
