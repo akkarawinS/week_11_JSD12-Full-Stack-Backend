@@ -3,6 +3,7 @@ import { users } from './mockData/Users.js'
 import cors from 'cors'
 import { router as apiRoutes} from './routes/index.js'
 import { connectDB } from './config/mongodb.js';
+import { connectSupabase} from './config/supabase.js'
 
 const app = express();
 
@@ -50,7 +51,10 @@ app.use('/api', apiRoutes);
 
 
 await connectDB();
+await connectSupabase();
+
+
 
 app.listen(3000, () => {
-  console.log('Server is running on port 3030 🌏')
+  console.log('Server is running on port 3000 🌏')
 });
