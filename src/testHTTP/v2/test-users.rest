@@ -28,8 +28,7 @@ Content-Type: application/json
 
 
 ### Delete
-DELETE  http://localhost:3000/api/v2/users/6a07534cd4f7ba855b2033b7
-
+DELETE  http://localhost:3000/api/v2/users/6a0d37beb025d72ee4646cf9
 
 ### Test register
 
@@ -38,7 +37,7 @@ Content-Type: application/json
 
 
 {
-    "username": "AlexExample2",
-    "email": "AlexExample2@example.com",
+    "username": "AlexExample22",
+    "email": "AlexExample22@example.com",
     "password": "123456782@"
 }

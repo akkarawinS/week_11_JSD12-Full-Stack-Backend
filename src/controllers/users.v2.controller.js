@@ -97,14 +97,14 @@ export const pgGetUser = async (req, res) => {
 export const register = async (req, res, next) => {
     const { username, email, password } = req.body || {};
 
-    const userExists = await User.findOne({ email });
-    if (userExists) {
+    const dupeUsers = await User.findOne({ email });
+    if (dupeUsers ) {
         return res.status(400).json({ success: false, error: 'อีเมลนี้ถูกใช้งานแล้ว' });
     }
 
     try {
         const hashedPassword = await hashPassword(password);
-        const newUser = await User.create({ username, email, password: hashedPassword ,role: 'user' });
+        const doc = await User.create({ username, email, password: hashedPassword ,role: 'user' });
         res.status(201).json({ success: true, message: 'สมัคสมาชิกสำเร็จ!'});
     } catch (err) {
         next(err);
