@@ -41,3 +41,14 @@ Content-Type: application/json
     "email": "AlexExample22@example.com",
     "password": "123456782@"
 }
+
+### Test login
+POST http://localhost:3000/api/v2/users/login
+Content-Type: application/json
+
+
+{
+    "email": "alexexample22@example.com",
+    "password": "123456782@"
+}
+

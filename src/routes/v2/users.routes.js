@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { supabase } from '../../config/supabase.js';
 import { getUsers, getDynamicUsers, addUsers, updateUsers, deleteUsers ,pgGetUser } from '../../controllers/users.v1.controller.js'
-import { register } from '../../controllers/users.v2.controller.js';
+import { login, register } from '../../controllers/users.v2.controller.js';
 export const router = Router();
 
 
@@ -59,3 +59,5 @@ router.get('/pg', pgGetUser);
 {/*Test bcrypt */}
 
 router.post('/register', register);
+
+router.post('/login', login);

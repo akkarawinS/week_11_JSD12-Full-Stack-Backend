@@ -110,3 +110,23 @@ export const register = async (req, res, next) => {
         next(err);
     }
 }
+
+export const login = async (req, res, next) => {
+    const { email, password } = req.body ;
+
+    const userInDB = await User.findOne({ email }).select('+password');
+
+    if (!userInDB) {
+        return res.status(400).json({ success: false, error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
+    }
+    const isMatch =  await comparePassword(password, userInDB.password);
+
+    if (!isMatch) {
+        return res.status(400).json({ success: false, error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
+    }
+    try {
+        res.status(200).json({ success: true, message: 'เข้าสู่ระบบสำเร็จ!' });
+    } catch (err) {
+        next(err);
+    }
+}
