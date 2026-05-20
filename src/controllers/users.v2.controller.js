@@ -103,8 +103,7 @@ export const register = async (req, res, next) => {
     }
 
     try {
-        const hashedPassword = await hashPassword(password);
-        const doc = await User.create({ username, email, password: hashedPassword ,role: 'user' });
+        const doc = await User.create({ username, email, password: password ,role: 'user' });
         res.status(201).json({ success: true, message: 'สมัคสมาชิกสำเร็จ!'});
     } catch (err) {
         next(err);

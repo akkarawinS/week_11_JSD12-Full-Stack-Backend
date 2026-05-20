@@ -1,0 +1,22 @@
+### Test register
+
+POST http://localhost:3000/api/v2/users/register
+Content-Type: application/json
+
+
+{
+    "username": "AlexExample222",
+    "email": "AlexExample222@example.com",
+    "password": "12345678222@"
+}
+
+### Test login
+POST http://localhost:3000/api/v2/users/login
+Content-Type: application/json
+
+
+{
+    "email": "AlexExample222@example.com",
+    "password": "12345678222@"
+}
+
