@@ -82,3 +82,15 @@ export const deleteUsers = async (req, res) => {
     res.status(500).json({ success: false, error: err });
   }
 }
+
+export const pgGetUser = async (req, res) => {
+  try {
+    const { data, error } = await supabase.from('users').select(PG_SELECT);
+
+    if (error) throw error;
+
+    return res.status(200).json({ success: true, data });
+  } catch (error) {
+    return res.status(400).json({ success: false, error: error.message });
+  }
+}

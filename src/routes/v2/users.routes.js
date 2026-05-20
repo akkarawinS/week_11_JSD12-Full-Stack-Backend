@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { supabase } from '../../config/supabase.js';
-import { getUsers, getDynamicUsers, addUsers, updateUsers, deleteUsers} from '../../controllers/users.controller.js'
+import { getUsers, getDynamicUsers, addUsers, updateUsers, deleteUsers ,pgGetUser} from '../../controllers/users.v1.controller.js'
 export const router = Router();
 
 
@@ -26,19 +26,8 @@ router.delete('/:id', deleteUsers);
 
 // const PG_SELECT = "id, username, email, role, created_at, updated_at";
 
-// {/*PG Route */ }
-// router.get('/pg', async (req, res) => {
-//   try {
-//     const { data, error } = await supabase.from('users').select(PG_SELECT);
-
-//     if (error) throw error;
-
-//     return res.status(200).json({ success: true, data });
-//   } catch (error) {
-//     return res.status(400).json({ success: false, error: error.message });
-//   }
-// }
-// );
+{/*PG Route */ }
+router.get('/pg', pgGetUser);
 
 // router.post('/pg', async (req, res) => {
 //   const { username, email, password, role } = req.body || {};
