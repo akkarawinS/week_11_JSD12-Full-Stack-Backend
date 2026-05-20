@@ -103,7 +103,11 @@ export const register = async (req, res, next) => {
     }
 
     try {
-        const doc = await User.create({ username, email, password: password ,role: 'user' });
+        const doc = await User.create({ 
+            username, 
+            email, 
+            password: password 
+        });
         res.status(201).json({ success: true, message: 'สมัคสมาชิกสำเร็จ!'});
     } catch (err) {
         next(err);
@@ -113,7 +117,7 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
     const { email, password } = req.body ;
 
-    const userInDB = await User.findOne({ email }).select('+password');
+    const userInDB = await User.findOne({ email }).select('password');
 
     if (!userInDB) {
         return res.status(400).json({ success: false, error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
