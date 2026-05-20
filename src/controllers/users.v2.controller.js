@@ -1,4 +1,5 @@
 import { User } from '../modules/users/user.model.js'
+import { hashPassword, comparePassword} from '../middlewares/hashPassword.js'
 
 const userResponse = (doc) => {
     const user = doc.toObject();
@@ -90,5 +91,22 @@ export const pgGetUser = async (req, res) => {
         return res.status(200).json({ success: true, data });
     } catch (error) {
         return res.status(400).json({ success: false, error: error.message });
+    }
+}
+
+export const register = async (req, res, next) => {
+    const { username, email, password } = req.body || {};
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+        return res.status(400).json({ success: false, error: 'อีเมลนี้ถูกใช้งานแล้ว' });
+    }
+
+    try {
+        const hashedPassword = await hashPassword(password);
+        const newUser = await User.create({ username, email, password: hashedPassword ,role: 'user' });
+        res.status(201).json({ success: true, message: 'สมัคสมาชิกสำเร็จ!'});
+    } catch (err) {
+        next(err);
     }
 }

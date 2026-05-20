@@ -10,9 +10,9 @@ POST http://localhost:3000/api/v2/users
 Content-Type: application/json
 
 {
-  "username":"john",
+  "username":"john2",
   "role":"user",
-  "email":"john@example.com",
+  "email":"john2@example.com",
   "password":"12345678"
 }
 
@@ -31,3 +31,14 @@ Content-Type: application/json
 DELETE  http://localhost:3000/api/v2/users/6a07534cd4f7ba855b2033b7
 
 
+### Test register
+
+POST http://localhost:3000/api/v2/users/register
+Content-Type: application/json
+
+
+{
+    "username": "AlexExample2",
+    "email": "AlexExample2@example.com",
+    "password": "123456782@"
+}
