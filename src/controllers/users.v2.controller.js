@@ -1,6 +1,6 @@
 import { User } from '../modules/users/user.model.js'
 import { hashPassword, comparePassword } from '../middlewares/hashPassword.js'
-import jwt  from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 const userResponse = (doc) => {
     const user = doc.toObject();
@@ -116,34 +116,35 @@ export const register = async (req, res, next) => {
 }
 
 export const login = async (req, res, next) => {
-    const { email, password } = req.body;
-
-    const userInDB = await User.findOne({ email }).select('password');
-
-    if (!userInDB) {
-        return res.status(400).json({ success: false, error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
-    }
-    const isMatch = await comparePassword(password, userInDB.password);
-
-    if (!isMatch) {
-        return res.status(400).json({ success: false, error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
-    }
-
-    const token = jwt.sign({ userId: userInDB._id }, process.env.JWT_SECRET, {
-        expiresIn: '1h',
-    });
-
-    const isProd = process.env.NODE_ENV === 'production'
-
-    res.cookie("accessToken", token, {
-        httpOnly: true,
-        secure: isProd, // Only send over HTTPS in production
-        sameSite: isProd ? "none" : "lax",
-        path: "/",
-        maxAge: 60 * 60 * 1000, // 1HR its age of cookie
-    })
-
     try {
+        const { email, password } = req.body;
+
+        const userInDB = await User.findOne({ email }).select('+password');
+
+        if (!userInDB) {
+            return res.status(400).json({ success: false, error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
+        }
+        const isMatch = await comparePassword(password, userInDB.password);
+
+        if (!isMatch) {
+            return res.status(400).json({ success: false, error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
+        }
+
+        const token = jwt.sign({ userId: userInDB._id }, process.env.JWT_SECRET, {
+            expiresIn: '1h',
+        }); 
+
+        const isProd = process.env.NODE_ENV === 'production'
+
+        res.cookie("accessToken", token, {
+            httpOnly: true,
+            secure: isProd, // Only send over HTTPS in production
+            sameSite: isProd ? "none" : "lax",
+            path: "/",
+            maxAge: 60 * 60 * 1000, // 1HR its age of cookie
+        })
+
+
         res.status(200).json({
             success: true,
             message: 'เข้าสู่ระบบสำเร็จ!',
@@ -160,33 +161,34 @@ export const login = async (req, res, next) => {
 }
 
 export const checkUser = async (req, res, next) => {
-  try {
-    const iserId = req.user.user_id;
-    const user = await User.findById(userId);
+    try {
+        const userId = req.user.userId;
+        const user = await User.findById(userId);
 
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "User not found !",
-      });
-      return res.statys(200).json({
-        success: true,
-        data: {
-          _id: user._id,
-          username: user.username,
-          role: user.role,
-        },
-      });
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "User not found !",
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            data: {
+                _id: user._id,
+                username: user.username,
+                role: user.role,
+            },
+        });
+
+    } catch (err) {
+        next(err);
     }
-  } catch (err) {
-    next(err);
-  }
 };
 
 export const logout = async (req, res) => {
     const isProd = process.env.NODE_ENV === 'production';
 
-    res.clearCookie('accessToken',{
+    res.clearCookie('accessToken', {
         httpOnly: true,
         secure: isProd, // Only send over HTTPS in production
         sameSite: isProd ? "none" : "lax",

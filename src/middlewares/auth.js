@@ -1,22 +1,14 @@
-import jwt from 'jsonwebtoken';
-
+import jwt from "jsonwebtoken";
 export const authUser = async (req, res, next) => {
-    let token = req.cookies.accessToken
-
+    const token = req.cookies.accessToken;
     if (!token) {
-        return res.status(401).json({
-            success: false,
-            message: 'Access denied. No token!',
-        });
+        return res.status(401).json({success: false,error: "Access denied. No token!"});
     }
-
     try {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-
-        req.user = { user: { _id: decodedToken.userId } };
+        req.user = decodedToken;
         next();
-    }
-    catch (err) {
-        next(err)
+    } catch (error) {
+        next(error);
     }
 };

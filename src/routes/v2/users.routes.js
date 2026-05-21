@@ -65,8 +65,6 @@ router.post('/register', register);
 router.post('/login', login);
 
 
-//Check user session/tokn
-
 router.get('/auth/me',authUser, checkUser)
 
 

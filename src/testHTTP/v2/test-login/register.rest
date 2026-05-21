@@ -1,5 +1,7 @@
 ### Test register
 
+@baseUrl = http://localhost:3000/api/v2/users
+
 POST http://localhost:3000/api/v2/users/register
 Content-Type: application/json
 
@@ -11,7 +13,7 @@ Content-Type: application/json
 }
 
 ### Test login
-POST http://localhost:3000/api/v2/users/login
+POST {{baseUrl}}/login
 Content-Type: application/json
 
 
@@ -20,3 +22,9 @@ Content-Type: application/json
     "password": "12345678222@"
 }
 
+
+### The REST Client stores the Set-Cookie header from request #1 automatically.
+GET {{baseUrl}}/auth/me
+
+### LOGOUT
+POST {{baseUrl}}/auth/logout
