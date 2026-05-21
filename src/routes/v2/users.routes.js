@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import { supabase } from '../../config/supabase.js';
-import { getUsers, getDynamicUsers, addUsers, updateUsers, deleteUsers ,pgGetUser } from '../../controllers/users.v1.controller.js'
-import { login, register } from '../../controllers/users.v2.controller.js';
+import { getUsers, getDynamicUsers, addUsers, updateUsers, deleteUsers, pgGetUser } from '../../controllers/users.v1.controller.js'
+import { login, register , checkUser,logout } from '../../controllers/users.v2.controller.js';
+import { authUser } from '../../middlewares/auth.js'
+
 export const router = Router();
 
 
@@ -56,8 +58,16 @@ router.get('/pg', pgGetUser);
 //   }
 // });
 
-{/*Test bcrypt */}
+{/*Test bcrypt */ }
 
 router.post('/register', register);
 
 router.post('/login', login);
+
+
+//Check user session/tokn
+
+router.get('/auth/me',authUser, checkUser)
+
+
+router.post('/auth/logout', logout );
