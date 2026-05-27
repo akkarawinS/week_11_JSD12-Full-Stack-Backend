@@ -15,13 +15,7 @@ const app = express();
 
 app.use(helmet());
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  ...(process.env.CLIENT_URLS || process.env.CLIENT_URL || '')
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean),
-];
+const allowedOrigins = ['http://localhost:5173','https://week-12-fullstack.vercel.app/'];
 
 const corsOption = {
   origin: (origin, callback) => {
