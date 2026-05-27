@@ -1,0 +1,36 @@
+GET http://localhost:3000
+
+
+###
+GET http://localhost:3000/api/v2/users
+
+### Dynamic route
+GET http://localhost:3000/api/users/2
+
+
+
+### Create new user
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "username": "'kokok'",
+    "email": "'joe@example.com'",
+    "password": "1234567"
+
+}
+
+### Update
+PUT http://localhost:3000/api/users/1
+Content-Type: application/json
+
+{
+
+    "username": "'kokok'",
+    "email": "'joe@example.com'",
+    "password": "1234567"
+
+
+}
+### Delete
+DELETE  http://localhost:3000/api/users/1
