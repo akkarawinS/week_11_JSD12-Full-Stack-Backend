@@ -28,3 +28,6 @@ GET {{baseUrl}}/auth/me
 
 ### LOGOUT
 POST {{baseUrl}}/auth/logout
+
+###GET user
+GET {{baseUrl}}
